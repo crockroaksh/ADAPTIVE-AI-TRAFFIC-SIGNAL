@@ -1,0 +1,11 @@
+fastapi==0.111.0
+uvicorn[standard]==0.30.1
+python-multipart==0.0.9
+httpx==0.27.0
+python-dotenv==1.0.1
+supabase==2.5.0
+numpy>=1.26,<3
+opencv-python-headless>=4.9,<5
+ultralytics>=8.2,<9
+# Install PyTorch separately with the CUDA wheel appropriate for your NVIDIA driver.
+# CPU-only environments can use: pip install torch torchvision torchaudio

@@ -1,0 +1,53 @@
+services:
+  - type: web
+    name: traffic-ai-backend
+    env: python
+    rootDir: backend
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: ESP32_IP
+        sync: false
+      - key: YOLO_MODEL
+        value: yolov8n.pt
+      - key: YOLO_CONFIDENCE
+        value: "0.30"
+      - key: AI_FPS
+        value: "4"
+      - key: SEGMENT_SECONDS
+        value: "1"
+      - key: FIRST_DECISION_IMGSZ
+        value: "384"
+      - key: MIN_GREEN_SECONDS
+        value: "15"
+      - key: MAX_GREEN_SECONDS
+        value: "60"
+      - key: MAX_WAIT_SECONDS
+        value: "90"
+      - key: CLEAR_THRESHOLD_VEHICLES
+        value: "2"
+      - key: CONSECUTIVE_CLEAR_REQUIRED
+        value: "2"
+      - key: STARVATION_MIN_VEHICLES
+        value: "1"
+      - key: STARVATION_MAX_VEHICLES
+        value: "10"
+      - key: SESSION_TTL_SECONDS
+        value: "1800"
+      # Optional -- only needed if you use Supabase history / Cloudinary
+      - key: SUPABASE_URL
+        sync: false
+      - key: SUPABASE_KEY
+        sync: false
+      - key: CLOUDINARY_CLOUD_NAME
+        sync: false
+      - key: CLOUDINARY_API_KEY
+        sync: false
+      - key: CLOUDINARY_API_SECRET
+        sync: false
+    # NOTE: Render's free/starter web services do not provide a GPU, so
+    # torch.cuda.is_available() will be False there and this will run on
+    # CPU (slow for real-time YOLO). This config is for reference/demo
+    # deployment only -- the low-latency real-time pipeline this project
+    # targets assumes a local machine with an NVIDIA GPU, not this hosted
+    # service.
